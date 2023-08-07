@@ -20,6 +20,18 @@ pace_gs:add(7).
 pace_gs:remove(3).
 ```
 
+# Local
+
+## Release
+
+Run:
+
+```
+rebar3 as prod release
+```
+
+missing-functions error means that dependencies needed to be added to the `.app.src`. See: https://rebar3.org/docs/deployment/releases/#missing-functions
+
 # Notes
 
 Started with example gen_server:
