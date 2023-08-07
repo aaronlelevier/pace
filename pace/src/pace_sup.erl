@@ -1,9 +1,9 @@
 %%%-------------------------------------------------------------------
-%% @doc pace_app top level supervisor.
+%% @doc pace top level supervisor.
 %% @end
 %%%-------------------------------------------------------------------
 
--module(pace_app_sup).
+-module(pace_sup).
 
 -behaviour(supervisor).
 
@@ -32,9 +32,9 @@ init([]) ->
                  intensity => 0,
                  period => 1},
     ChildSpecs = [
-        #{id => pace_app_gs,
-          start => {pace_app_gs, start_link, []},
-          modules => [pace_app_gs],
+        #{id => pace_gs,
+          start => {pace_gs, start_link, []},
+          modules => [pace_gs],
           restart => permanent,
           shutdown => brutal_kill,
           type => worker

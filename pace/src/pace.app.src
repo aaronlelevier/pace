@@ -1,8 +1,8 @@
-{application, pace_app,
+{application, pace,
  [{description, "An OTP application"},
   {vsn, "0.1.0"},
   {registered, []},
-  {mod, {pace_app_app, []}},
+  {mod, {pace_app, []}},
   {applications,
    [kernel,
     stdlib
