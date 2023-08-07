@@ -16,9 +16,8 @@ Add remove items:
 
 ```erlang
 pace_gs:add(3).
-pace_gs:add(4).
+pace_gs:add(7).
 pace_gs:remove(3).
-q().
 ```
 
 # Notes
