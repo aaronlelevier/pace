@@ -4,7 +4,9 @@
 
 Project for fun hacking in Erlang.
 
-# Usage
+# Local
+
+## Start shell
 
 Start application:
 
@@ -12,7 +14,7 @@ Start application:
 rebar3 shell
 ```
 
-Add remove items:
+Add/remove items:
 
 ```erlang
 pace_gs:add(3).
@@ -20,17 +22,32 @@ pace_gs:add(7).
 pace_gs:remove(3).
 ```
 
-# Local
+## Build and run a Release
+
+```bash
+rebar3 shell
+```
 
 ## Release
 
-Run:
-
-```
+```bash
+# build
 rebar3 as prod release
+
+# run
+rebar3 as prod release
+./_build/prod/rel/pace/bin/pace foreground
 ```
 
 missing-functions error means that dependencies needed to be added to the `.app.src`. See: https://rebar3.org/docs/deployment/releases/#missing-functions
+
+## Cowboy API
+
+Can curl singl http endpoint
+
+```bash
+curl localhost:8080
+```
 
 # Notes
 

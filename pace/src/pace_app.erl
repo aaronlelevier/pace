@@ -12,10 +12,6 @@
 start(_StartType, _StartArgs) ->
     % cowboy tutorial puts the start up code here, but
     % docker-erlang-example puts it in the supervisor
-    ok = application:start(ranch),
-    ok = application:start(cowlib),
-    ok = application:start(cowboy),
-
     io:format("Launch server port: ~p.\n", ["8080"]),
 
     Dispatch = cowboy_router:compile([
