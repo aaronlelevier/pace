@@ -1,4 +1,4 @@
--module(pace_gs).
+-module(pace_app_gs).
 -behaviour(gen_server).
 
 -export([start_link/0]).
@@ -6,13 +6,13 @@
 -export([init/1, handle_call/3, handle_cast/2]).
 
 start_link() ->
-    gen_server:start_link({local, pace_gs}, pace_gs, [], []).
+    gen_server:start_link({local, pace_app_gs}, pace_app_gs, [], []).
 
 add(N) ->
-    gen_server:call(pace_gs, {add, N}).
+    gen_server:call(pace_app_gs, {add, N}).
 
 remove(N) ->
-    gen_server:cast(pace_gs, {remove, N}).
+    gen_server:cast(pace_app_gs, {remove, N}).
 
 init(_Args) ->
     State = [],

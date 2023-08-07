@@ -1,6 +1,6 @@
 # Summary
 
-## Pace
+## pace_app
 
 Project for fun hacking in Erlang.
 
@@ -15,10 +15,9 @@ rebar3 shell
 Add remove items:
 
 ```erlang
-pace_gs:add(3).
-pace_gs:add(4).
-pace_gs:remove(3).
-q().
+pace_app_gs:add(3).
+pace_app_gs:add(7).
+pace_app_gs:remove(3).
 ```
 
 # Notes
@@ -26,7 +25,7 @@ q().
 Started with example gen_server:
 https://www.erlang.org/doc/design_principles/gen_server_concepts#example
 
-Simplified gen_server to [pace_gs.erl](#src/pace_gs.erl)
+Simplified gen_server to [pace_app_gs.erl](#src/pace_app_gs.erl)
 
 gen_server docs:
 
