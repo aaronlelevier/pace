@@ -49,6 +49,15 @@ Can curl singl http endpoint
 curl localhost:8080
 ```
 
+# Docker
+
+```bash
+docker build -t pace .
+docker run -dp 8080:8080 --init --volume="$PWD:$PWD" pace
+docker container ls
+docker stop <container-id>
+```
+
 # Notes
 
 Started with example gen_server:
