@@ -51,10 +51,17 @@ curl localhost:8080
 
 # Docker
 
+Start container
+
 ```bash
 docker build -t pace .
 docker run -dp 8080:8080 --init --volume="$PWD:$PWD" pace
 docker container ls
+```
+
+Stop container
+
+```bash
 docker stop <container-id>
 ```
 
