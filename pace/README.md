@@ -65,6 +65,87 @@ Stop container
 docker stop <container-id>
 ```
 
+# Minikube
+
+## Quickstart
+
+### Create
+
+```bash
+# set app version (must match deployment.yaml if present)
+VERSION=v0.0.2
+
+# Set docker to point to minikube
+eval $(minikube docker-env)
+
+# Push to minikube docker
+docker build -t pace:$VERSION .
+
+# Set your deployment to - imagePullPolicy=IfNotPresent
+# Options:
+# 1. edit deployment.yaml to set above config:
+#       check local dir for deployment.yaml
+#
+# 2. run cmd to edit deployment config:
+#       kubectl edit deployment pace
+
+# create and run deployment
+kubectl create deployment pace --image=pace:$VERSION
+kubectl expose deployment pace --type=LoadBalancer --port=8080
+minikube service pace
+```
+
+### Delete
+
+```bash
+kubectl delete service pace
+kubectl get services
+
+kubectl delete deployment pace
+kubectl get deployments
+```
+
+## Deployments
+
+```bash
+# list
+kubectl get deployments
+
+# create
+kubectl expose deployment pace --type=LoadBalancer --port=8080
+
+# delete
+kubectl delete deployment pace
+```
+
+## Services
+
+```bash
+# list
+kubectl get services
+
+# create
+kubectl expose deployment pace --type=LoadBalancer --port=8080
+
+# run
+# https://kubernetes.io/docs/tutorials/hello-minikube/
+minikube service pace
+
+# edit
+# https://stackoverflow.com/questions/53877516/how-do-i-set-the-imagepullpolicy-with-minikube
+kubectl edit deployment pace
+
+# delete
+kubectl delete service pace
+```
+
+## Other Links
+
+- kubectl cheatsheet: https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+- how to build local images SO answer: https://stackoverflow.com/a/49478889/1913888
+- kubectl deployments: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+
+
 # Notes
 
 Started with example gen_server:

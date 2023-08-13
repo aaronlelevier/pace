@@ -1,0 +1,23 @@
+apiVersion: v0.0.2
+kind: Deployment
+metadata:
+  name: pace
+spec:
+  selector:
+    matchLabels:
+      app: pace
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: pace
+    spec:
+      containers:
+      - name: pace
+        image: pace:v0.0.2
+        # Set to "Always" for prod, and "IfNotPresent" for local
+        # https://stackoverflow.com/a/49478889/1913888
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+
