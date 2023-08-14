@@ -15,12 +15,17 @@ start(_StartType, _StartArgs) ->
     io:format("Launch server port: ~p.\n", ["8080"]),
 
     Dispatch = cowboy_router:compile([
-        {'_', [{"/", pace_handler, []}]}
+        {'_', [
+            {"/ping", ping_handler, []},
+            {"/", pace_handler, []}
+        ]}
     ]),
+
     {ok, _} = cowboy:start_clear(my_http_listener,
         [{port, 8080}],
         #{env => #{dispatch => Dispatch}}
     ),
+
     pace_sup:start_link().
 
 stop(_State) ->
