@@ -61,8 +61,8 @@ handle_post(Req, State) ->
     {ok, Body, Req2} = cowboy_req:read_body(Req),
 
     % TODO: use lager for logging
-    io:format("~p~n", [Body]),
-    io:format("~p~n", [jsone:decode(Body)]),
+    lager:info("~p~n", [Body]),
+    lager:info("~p~n", [jsone:decode(Body)]),
 
     {true, Req2, State}.
 
