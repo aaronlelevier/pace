@@ -9,7 +9,7 @@
 %%
 %%  Test invoke:
 %%  $ curl --header "Content-Type: application/json" localhost:8080/ping
-%%  $ curl --header "Content-Type: application/json" localhost:8080/ping --request POST --data '{"username":"xyz","password":"xyz"}'
+%%  $ curl --header "Content-Type: application/json" localhost:8080/ping --request POST --data '{"sta":78.613,"stack":614.5,"reach":475}'
 %%
 %% @end
 %%%-------------------------------------------------------------------
@@ -49,9 +49,17 @@ handle_post(Req, State) ->
     % https://ninenines.eu/docs/en/cowboy/2.6/manual/cowboy_req.read_body/
     {ok, Body, Req2} = cowboy_req:read_body(Req),
 
-    % TODO: use lager for logging
-    lager:info("~p~n", [Body]),
-    lager:info("~p~n", [jsone:decode(Body)]),
+    lager:info("Body: ~p~n", [Body]),
+
+    M = jsone:decode(Body),
+    lager:info("Map: ~p~n", [M]),
+
+    ETT = pace:ett(
+         maps:get(<<"sta">>, M),
+         maps:get(<<"stack">>, M),
+         maps:get(<<"reach">>, M)
+    ),
+    lager:info("ETT: ~p~n", [ETT]),
 
     {true, Req2, State}.
 
