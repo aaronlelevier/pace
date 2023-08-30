@@ -1,20 +1,20 @@
 %%%-------------------------------------------------------------------
-%% @doc ping/pong API
+%% @doc ett/pong API
 %%
 %%  # HTTP
-%%  curl http://localhost:8080/ping
+%%  curl http://localhost:8080/ett
 %%
 %%  Cowboy REST docs:
 %%  https://ninenines.eu/docs/en/cowboy/2.6/manual/cowboy_rest/
 %%
 %%  Test invoke:
-%%  $ curl --header "Content-Type: application/json" localhost:8080/ping
-%%  $ curl --header "Content-Type: application/json" localhost:8080/ping --request POST --data '{"sta":78.613,"stack":614.5,"reach":475}'
+%%  $ curl --header "Content-Type: application/json" localhost:8080/ett
+%%  $ curl --header "Content-Type: application/json" localhost:8080/ett --request POST --data '{"sta":78.613,"stack":614.5,"reach":475}'
 %%
 %% @end
 %%%-------------------------------------------------------------------
 
--module(ping_handler).
+-module(ett_handler).
 -behavior(cowboy_handler).
 
 -export([

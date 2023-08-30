@@ -16,7 +16,7 @@ start(_StartType, _StartArgs) ->
 
     Dispatch = cowboy_router:compile([
         {'_', [
-            {"/ping", ping_handler, []},
+            {"/ett", ett_handler, []},
             {"/", pace_handler, []}
         ]}
     ]),
