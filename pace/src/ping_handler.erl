@@ -26,8 +26,6 @@
     to_json/2
 ]).
 
-%%%%% Cowboy %%%%%
-
 init(Req, []) ->
     {cowboy_rest, Req, []}.
 
@@ -45,15 +43,18 @@ content_types_accepted(Req, State) ->
 
 %% Handle the POST/PUT request
 handle_post(Req, State) ->
-    % TODO: not handling: {more, Body, Req2}
-    % https://ninenines.eu/docs/en/cowboy/2.6/manual/cowboy_req.read_body/
+    % https://ninenines.eu/docs/en/cowboy/2.10/manual/cowboy_req.read_body/
+    lager:info("Req: ~p~n", [Req]),
+    lager:info("State: ~p~n", [State]),
+
+    % decode body
     {ok, Body, Req2} = cowboy_req:read_body(Req),
-
     lager:info("Body: ~p~n", [Body]),
-
+    lager:info("Req2: ~p~n", [Req2]),
     M = jsone:decode(Body),
     lager:info("Map: ~p~n", [M]),
 
+    % calculate effective top tube length
     ETT = pace:ett(
          maps:get(<<"sta">>, M),
          maps:get(<<"stack">>, M),
@@ -61,7 +62,14 @@ handle_post(Req, State) ->
     ),
     lager:info("ETT: ~p~n", [ETT]),
 
-    {true, Req2, State}.
+    % encode and set response
+    Body2 = #{
+        % https://www.erlang.org/doc/man/erlang#float_to_binary-2
+        <<"ett">> => float_to_binary(ETT, [short])
+    },
+    Req3 = cowboy_req:set_resp_body(jsone:encode(Body2), Req),
+    {true, Req3, State}.
+
 
 %% Which content types we handle for GET/HEAD requests
 content_types_provided(Req, State) ->
