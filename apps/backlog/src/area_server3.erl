@@ -1,21 +1,24 @@
 %%%-------------------------------------------------------------------
-%% @doc p.186
+%% @doc p.187 - Hide `spawn` and `rpc`
 %%
-%% Pid = spawn(area_server1, loop, []).
-%% area_server1:rpc(Pid, {square, 3}).
+%% Pid = area_server3:start().
+%% area_server3:area(Pid, {square, 3}).
 %%
 %% @end
 %%%-------------------------------------------------------------------
 
--module(area_server1).
+-module(area_server3).
 
--export([rpc/2, loop/0]).
+-export([start/0, area/2, loop/0]).
+
+start() ->
+    spawn(?MODULE, loop, []).
 
 % Sends a request to the area servier and waits for returns the response
-rpc(Pid, Request) ->
+area(Pid, Request) ->
     Pid ! {self(), Request},
     receive
-        Response ->
+        {Pid, Response} ->
             Response
     end.
 
@@ -24,14 +27,14 @@ loop() ->
     receive
         {From, {rectangle, H, W}} ->
             lager:info("rectangle"),
-            From ! H * W,
+            From ! {self(), H * W},
             loop();
         {From, {square, Side}} ->
             lager:info("square"),
-            From ! Side * Side,
+            From ! {self(), Side * Side},
             loop();
         {From, Other} ->
             lager:info("other"),
-            From ! Other,
+            From ! {self(), Other},
             loop()
     end.

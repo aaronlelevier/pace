@@ -1,13 +1,13 @@
 %%%-------------------------------------------------------------------
-%% @doc p.186
+%% @doc p.187 - Selective receive
 %%
-%% Pid = spawn(area_server1, loop, []).
-%% area_server1:rpc(Pid, {square, 3}).
+%% Pid = spawn(area_server2, loop, []).
+%% area_server2:rpc(Pid, {square, 3}).
 %%
 %% @end
 %%%-------------------------------------------------------------------
 
--module(area_server1).
+-module(area_server2).
 
 -export([rpc/2, loop/0]).
 
@@ -15,7 +15,7 @@
 rpc(Pid, Request) ->
     Pid ! {self(), Request},
     receive
-        Response ->
+        {Pid, Response} ->
             Response
     end.
 
@@ -24,14 +24,14 @@ loop() ->
     receive
         {From, {rectangle, H, W}} ->
             lager:info("rectangle"),
-            From ! H * W,
+            From ! {self(), H * W},
             loop();
         {From, {square, Side}} ->
             lager:info("square"),
-            From ! Side * Side,
+            From ! {self(), Side * Side},
             loop();
         {From, Other} ->
             lager:info("other"),
-            From ! Other,
+            From ! {self(), Other},
             loop()
     end.

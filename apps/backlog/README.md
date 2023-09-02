@@ -1,9 +1,11 @@
-backlog
-=====
+# backlog
 
-An OTP library
+Scratchpad code for trying out Erlang patterns before moving them to the main `pace` app.
 
-Build
------
+# Programming Erlang by Joe Armstrong - Notes
 
-    $ rebar3 compile
+## CH-12 - Concurrency Programming
+
+Selective receive
+
+Hide `spawn` and `rpc`
