@@ -23,7 +23,8 @@ sleep(T) ->
 % Flush all messages from mailbox
 flush_buffer() ->
     receive
-      _Any ->
+      Any ->
+        lager:info("Any: ~p~n", [Any]),
         flush_buffer()
     after
       0 ->
