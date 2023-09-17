@@ -22,6 +22,7 @@ start(_StartType, _StartArgs) ->
     Dispatch = cowboy_router:compile([
         {'_', [
             {"/ett", ett_handler, []},
+            {"/rest", rest_handler, []},
             {"/", pace_handler, []}
         ]}
     ]),
