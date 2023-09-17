@@ -1,5 +1,8 @@
 %%%-------------------------------------------------------------------
 %% @doc pace public API
+%%
+%% https://ninenines.eu/docs/en/cowboy/2.10/guide/listeners/
+%%
 %% @end
 %%%-------------------------------------------------------------------
 
@@ -8,6 +11,8 @@
 -behaviour(application).
 
 -export([start/2, stop/1]).
+
+-define(HTTP_LISTENER, my_http_listener).
 
 start(_StartType, _StartArgs) ->
     % cowboy tutorial puts the start up code here, but
@@ -21,7 +26,7 @@ start(_StartType, _StartArgs) ->
         ]}
     ]),
 
-    {ok, _} = cowboy:start_clear(my_http_listener,
+    {ok, _} = cowboy:start_clear(?HTTP_LISTENER,
         [{port, 8080}],
         #{env => #{dispatch => Dispatch}}
     ),
@@ -29,6 +34,7 @@ start(_StartType, _StartArgs) ->
     pace_sup:start_link().
 
 stop(_State) ->
-    ok.
+    ok = cowboy:stop_listener(?HTTP_LISTENER).
+
 
 %% internal functions
