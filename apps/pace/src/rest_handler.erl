@@ -82,6 +82,7 @@ handle_request(Req, State) ->
 
 handle_post(Body, Req, State) ->
     lager:info("handle_post"),
+    lager:debug("handle_post"),
     Req2 = cowboy_req:set_resp_body(jsone:encode(Body), Req),
     {false, Req2, State}.
 
