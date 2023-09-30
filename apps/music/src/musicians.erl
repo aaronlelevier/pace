@@ -27,6 +27,7 @@
 
 %%% Public %%%
 
+% https://www.erlang.org/doc/man/gen_server#type-server_name
 start_link(Role, Skill) ->
     gen_server:start_link({local, Role}, ?MODULE, [Role, Skill], []).
 
@@ -35,6 +36,7 @@ stop(Role) ->
 
 %%% gen_server callbacks
 
+% https://www.erlang.org/doc/man/rand#type-builtin_alg
 init([Role, Skill]) ->
     % to know when parent shuts down
     process_flag(trap_exit, true),
@@ -53,26 +55,26 @@ handle_call(_Msg, _From, S) ->
 handle_cast(_Msg, S) ->
     {noreply, S, ?DELAY}.
 
-handle_info(timeout, S=#state{name=N, skill=good}) ->
-    lager:info("~s produced sound!~n", [N]),
+handle_info(timeout, S=#state{name=Name, role=Role, skill=good}) ->
+    lager:info("Role:~s Name:~s produced sound!~n", [Role, Name]),
     {noreply, S, ?DELAY};
-handle_info(timeout, S=#state{name=N, skill=bad}) ->
+handle_info(timeout, S=#state{name=Name, role=Role, skill=bad}) ->
     case rand:uniform(5) of
         1 ->
-            lager:info("~s played a false note. Uh oh!~n", [N]),
+            lager:info("Role:~s Name:~s played a false note. Uh oh!~n", [Role, Name]),
             {stop, bad_note, S};
         _ ->
-            lager:info("~s produced sound!~n", [N]),
+            lager:info("Role:~s Name:~s produced sound!~n", [Role, Name]),
             {noreply, S, ?DELAY}
         end;
 handle_info(_Msg, S) ->
     {noreply, S, ?DELAY}.
 
 terminate(normal, S=#state{name=Name, role=Role}) ->
-    lager:info("~s left the room (~s)~n", [Name, Role]),
+    lager:info("Role:~s Name:~s terminate: normal~n", [Role, Name]),
     {ok, S};
-terminate(bad_note, S=#state{name=Name}) ->
-    lager:info("~s is terminating due to bad_note.~n", [Name]),
+terminate(bad_note, S=#state{name=Name, role=Role}) ->
+    lager:info("Role:~s Name:~s terminate: bad_note~n", [Role, Name]),
     {ok, S};
 terminate(shutdown, _S) ->
     lager:info("manager is mad and fired the whole band.~n");
